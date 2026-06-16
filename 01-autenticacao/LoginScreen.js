@@ -22,8 +22,8 @@ export default function LoginScreen() {
       return;
     }
     Alert.alert(
-      "Etapa 1 concluída",
-      "A tela de login está pronta! Na Etapa 2 este botão fará o login de verdade com o Firebase."
+      "Login autorizado",
+      "Levando à tela incial"
     );
   }
 
@@ -83,7 +83,7 @@ export default function LoginScreen() {
           <View style={{ flexDirection: "row", justifyContent: "center", gap: 6 }}>
             <Text style={{ color: colors.muted }}>Não tem conta?</Text>
             <TouchableOpacity
-              onPress={() => Alert.alert("Em breve", "O cadastro será adicionado na Etapa 2.")}
+              onPress={() => Alert.alert("Em breve", "O cadastro será adicionado.")}
             >
               <Text style={styles.link}>Cadastre-se</Text>
             </TouchableOpacity>
