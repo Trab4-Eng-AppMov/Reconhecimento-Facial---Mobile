@@ -1,12 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import LoginScreen from "./01-autenticacao/LoginScreen";
-
+import { AuthProvider } from "./core/AuthContext";
+import RootNavigator from "./core/RootNavigator";
 export default function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar style="light" />
-      <LoginScreen />
+      <AuthProvider>
+        <StatusBar style="light" />
+        <RootNavigator />
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }
