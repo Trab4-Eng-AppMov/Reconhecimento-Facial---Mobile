@@ -7,24 +7,32 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../core/firebase";
 import { styles, colors } from "../core/theme";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!email.trim() || !senha) {
       Alert.alert("Atenção", "Preencha e-mail e senha.");
       return;
     }
-    Alert.alert(
-      "Login autorizado",
-      "Levando à tela incial"
-    );
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email.trim(), senha);
+    } catch (e) {
+      Alert.alert("Não foi possível entrar", traduzErro(e.code));
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -76,15 +84,21 @@ export default function LoginScreen() {
             />
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Entrar</Text>
+          <TouchableOpacity
+            style={[styles.button, loading && { opacity: 0.7 }]}
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.buttonText}>Entrar</Text>
+            )}
           </TouchableOpacity>
 
           <View style={{ flexDirection: "row", justifyContent: "center", gap: 6 }}>
             <Text style={{ color: colors.muted }}>Não tem conta?</Text>
-            <TouchableOpacity
-              onPress={() => Alert.alert("Em breve", "O cadastro será adicionado.")}
-            >
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
               <Text style={styles.link}>Cadastre-se</Text>
             </TouchableOpacity>
           </View>
@@ -92,4 +106,19 @@ export default function LoginScreen() {
       </ScrollView>
     </KeyboardAvoidingView>
   );
+}
+
+function traduzErro(code) {
+  switch (code) {
+    case "auth/invalid-email":
+      return "E-mail inválido.";
+    case "auth/user-not-found":
+    case "auth/wrong-password":
+    case "auth/invalid-credential":
+      return "E-mail ou senha incorretos.";
+    case "auth/too-many-requests":
+      return "Muitas tentativas. Tente novamente mais tarde.";
+    default:
+      return "Verifique seus dados e a conexão com a internet.";
+  }
 }
