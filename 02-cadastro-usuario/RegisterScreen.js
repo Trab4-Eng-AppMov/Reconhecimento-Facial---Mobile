@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../core/firebase";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../core/firebase";
 import { styles, colors } from "../core/theme";
 
 export default function RegisterScreen({ navigation }) {
@@ -39,7 +40,18 @@ export default function RegisterScreen({ navigation }) {
     setLoading(true);
     try {
       const cred = await createUserWithEmailAndPassword(auth, email.trim(), senha);
+
       await updateProfile(cred.user, { displayName: nome.trim() });
+
+      await setDoc(doc(db, "usuarios", cred.user.uid), {
+        nome: nome.trim(),
+        email: email.trim(),
+        telefone: "",
+        curso: "",
+        bio: "",
+        criadoEm: serverTimestamp(),
+      });
+
     } catch (e) {
       Alert.alert("Não foi possível cadastrar", traduzErro(e.code));
     } finally {
