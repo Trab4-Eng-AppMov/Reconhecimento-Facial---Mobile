@@ -1,29 +1,35 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ActivityIndicator, View, Text, TouchableOpacity } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { ActivityIndicator, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 import { useAuth } from "./AuthContext";
-import { colors, styles } from "./theme";
+import { colors } from "./theme";
 
 import LoginScreen from "../01-autenticacao/LoginScreen";
 import RegisterScreen from "../02-cadastro-usuario/RegisterScreen";
+import ProfileScreen from "../03-perfil-usuario/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-
-function BoasVindas() {
-  const { user, logout } = useAuth();
+function AppTabs() {
   return (
-    <View style={[styles.centered, { padding: 24 }]}>
-      <Text style={styles.title}>Bem-vindo!</Text>
-      <Text style={[styles.subtitle, { textAlign: "center", marginTop: 8 }]}>
-        Login realizado com: {user?.email}
-        {"\n\n"}As telas de Perfil e Reconhecimento Facial chegam nas próximas etapas.
-      </Text>
-      <TouchableOpacity style={[styles.buttonOutline, { marginTop: 24 }]} onPress={logout}>
-        <Text style={styles.buttonOutlineText}>Sair da conta</Text>
-      </TouchableOpacity>
-    </View>
+    <Tab.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: "#fff",
+        headerTitleStyle: { fontWeight: "800" },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.muted,
+        tabBarIcon: ({ color, size }) => (
+          <Ionicons name="person-circle" size={size} color={color} />
+        ),
+      }}
+    >
+      <Tab.Screen name="Perfil" component={ProfileScreen} options={{ title: "Meu Perfil" }} />
+    </Tab.Navigator>
   );
 }
 
@@ -32,7 +38,7 @@ export default function RootNavigator() {
 
   if (loading) {
     return (
-      <View style={styles.centered}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: colors.bg }}>
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
@@ -41,7 +47,7 @@ export default function RootNavigator() {
   return (
     <NavigationContainer>
       {user ? (
-        <BoasVindas />
+        <AppTabs />
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={LoginScreen} />
