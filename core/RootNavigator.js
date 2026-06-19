@@ -10,6 +10,7 @@ import { colors } from "./theme";
 import LoginScreen from "../01-autenticacao/LoginScreen";
 import RegisterScreen from "../02-cadastro-usuario/RegisterScreen";
 import ProfileScreen from "../03-perfil-usuario/ProfileScreen";
+import FaceRecognitionScreen from "../04-reconhecimento-facial/FaceRecognitionScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,18 +18,29 @@ const Tab = createBottomTabNavigator();
 function AppTabs() {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerStyle: { backgroundColor: colors.primary },
         headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: "800" },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.muted,
-        tabBarIcon: ({ color, size }) => (
-          <Ionicons name="person-circle" size={size} color={color} />
-        ),
-      }}
+        tabBarIcon: ({ color, size }) => {
+          const icon =
+            route.name === "Reconhecimento" ? "scan-circle" : "person-circle";
+          return <Ionicons name={icon} size={size} color={color} />;
+        },
+      })}
     >
-      <Tab.Screen name="Perfil" component={ProfileScreen} options={{ title: "Meu Perfil" }} />
+      <Tab.Screen
+        name="Reconhecimento"
+        component={FaceRecognitionScreen}
+        options={{ title: "Reconhecimento Facial" }}
+      />
+      <Tab.Screen
+        name="Perfil"
+        component={ProfileScreen}
+        options={{ title: "Meu Perfil" }}
+      />
     </Tab.Navigator>
   );
 }
