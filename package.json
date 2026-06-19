@@ -1,6 +1,6 @@
 {
   "name": "reconhecimento-facial-mobile",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "expo": "~51.0.28",
+    "expo-camera": "~15.0.16",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-native": "0.74.5",
