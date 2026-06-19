@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Reconhecimento Facial",
+    "slug": "reconhecimento-facial-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0B3D91"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "O app usa a câmera para capturar o rosto no reconhecimento facial."
+      }
+    },
+    "android": {
+      "permissions": ["CAMERA"]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permitir acesso à câmera para reconhecimento facial."
+        }
+      ]
+    ]
+  }
+}
