@@ -3,12 +3,12 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY_AQUI",
-  authDomain: "SEU_AUTH_DOMAIN_AQUI",
-  projectId: "SEU_PROJECT_ID_AQUI",
-  storageBucket: "SEU_STORAGE_BUCKET_AQUI",
-  messagingSenderId: "SEU_MESSAGING_SENDER_ID_AQUI",
-  appId: "SEU_APP_ID_AQUI"
+  apiKey: "AIzaSyCRMhkehe-zMW0AJdPK6oVAZ6vYeGToD6g",
+  authDomain: "trabalho4will.firebaseapp.com",
+  projectId: "trabalho4will",
+  storageBucket: "trabalho4will.firebasestorage.app",
+  messagingSenderId: "762758739601",
+  appId: "1:762758739601:web:37f9c81b5b665f2b5d3130"
 };
 
 if (!firebase.apps.length) {
