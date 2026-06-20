@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator } from 'react-native';
 
@@ -31,7 +32,7 @@ export default function App() {
   }
 
   return (
-    <PaperProvider>
+    <PaperProvider settings={{ icon: props => <MaterialCommunityIcons {...props} /> }}>
       <NavigationContainer>
         <StatusBar style="auto" />
         {usuario ? (
